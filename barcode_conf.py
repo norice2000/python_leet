@@ -36,8 +36,13 @@ def test_barcode_configuration():
             "expected": ["Invalid configuration"]
         },
         {
-            "name": "Invalid - Config not 10 chars",
-            "input": "0001TOOLONG123|0002MO6K1Z9WFA",
+            "name": "Invalid - Config too long",
+            "input": "0001TOOLONG1234|0002MO6K1Z9WFA",  # TOOLONG1234 = 11 chars
+            "expected": ["Invalid configuration"]
+        },
+        {
+            "name": "Invalid - Config too short", 
+            "input": "0001SHORT12|0002MO6K1Z9WFA",      # SHORT12 = 7 chars
             "expected": ["Invalid configuration"]
         },
         {
@@ -86,32 +91,26 @@ if __name__ == "__main__":
     def ordered_configuration(configuration: str):
         # print(f"debug: input: {configuration}")
         try:
-            part = configuration.split("|") #All configurations must be separated by a "|" character
-            # print(f"after split: {part}")
+            parts = configuration.split("|") #All configurations must be separated by a "|" character
             configs = []
-
-            for index, part in enumerate(part):
-                # print(f"index: {index + 1}\n part: {part}")
-                # print(f"Checking length: {len(part)}")
+            
+            # STEP 1: Process each part individually -
+            for index, part in enumerate(parts):
 
                 # Each part should be exactly 14 chars (4 ordinal + 10 config)
-                if len(part) >= 14:
+                if len(part) != 14:
                     return ['Invalid configuration']
                 
                 # seperate ordinal and config digit
                 ordinal_str = part[:4] # first 4
                 config_str = part[4:] # last 10
-                print(f"ordinal: {ordinal_str}")
-                print(f"config: {config_str}")
 
                 # Ordinal index should be 4 digit numeric
                 if not ordinal_str.isdigit():
                     return ['Invalid configuration']
-                
                 # Configuration value length is exactly 10 characters"
                 if len(config_str) != 10:
                     return ['Invalid configuration']
-                
                 #Configuration values are alphanumeric and may contain no other characters
                 if not config_str.isalnum():
                     return ['Invalid configuration']
@@ -124,13 +123,44 @@ if __name__ == "__main__":
                 
                 configs.append((ordinal_int, config_str)) # config[0] is ordinal, config[1] is configure
 
-                print(f"config {configs}")
-                #Configurations cannot skip a number in the ordering. If there are three configuration strings, there must be a 1, 2, and 3 index
-                for i in configs[0]:
-                    ordinals = i
-                
-                print(f"final: {configs.append(ordinal_int, config_str)}")
+            #Configurations cannot skip a number in the ordering. If there are three configuration strings, there must be a 1, 2, and 3 index
+            ordinals = [config[0] for config in configs] #assigning first item from typle since thay are ordinal
+            config_values = [config[1] for config in configs] #assigning second item from typle since thyre configs
+
+            # Check for duplicate ordinals
+            if len(ordinals) != len(set(ordinals)):
+                return ['Invalid configuration']
+            # Check for duplicate configs
+            if len(config_values) != len(set(config_values)):
+                return ['Invalid configuration']
             
+
+# for config in configs:
+#     ordinal_num = config[0]    # Get first item from tuple
+#     config_str = config[1]     # Get second item from tuple
+#     ordinals.append(ordinal_num)
+#     config_values.append(config_str)
+
+# # But list comprehension is much shorter!
+# ordinals = [config[0] for config in configs]
+# config_values = [config[1] for config in configs]
+
+            # Configurations cannot skip a number in the ordering. If there are three configuration strings, 
+            # there must be a 1, 2, and 3 index
+            # start sorting 
+            ordinals_sorted = sorted(ordinals)
+            for i in range(len(ordinals_sorted)):
+                expected = i + 1
+                actual = ordinals_sorted[i]
+                if actual != expected:
+                    return ['Invalid configuration']
+                
+            configs.sort()
+            result = [config[1] for config in configs]
+            return result
+            
+
+
         except Exception as e:
             return ['Invalid configuration']
     
