@@ -39,3 +39,16 @@ for i in range(len(student_grades)):
 for grade_tuple in student_grades:
     subject, grade = grade_tuple #this assigns index 0 = Math, index 1 = A
     print(f"UNPACK METHOD Subject: {subject}, Grade: {grade}")
+
+
+# barcode practice
+config_parts = "0001LAJ5KBX9H8|0003UKURNK403F|0002MO6K1Z9WFA|0004OWRXZFMS2C".split("|")
+parsed_configs = []
+for config in config_parts:
+    print(config)
+    ordinal_index = config[:4]
+    config_index = config[4:]
+    tuple_pair = (ordinal_index, config_index) # creates a tuple
+    parsed_configs.append(tuple_pair) # append the list with the tuple
+
+print(str(parsed_configs)) #outputs [('0001', 'LAJ5KBX9H8'), ('0003', 'UKURNK403F'), ('0002', 'MO6K1Z9WFA'), ('0004', 'OWRXZFMS2C')]
