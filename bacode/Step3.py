@@ -15,14 +15,13 @@ class BarcodeConfigurationParser:
     # Step 2
     def _parse_single_configuration(self, config_part: str):
         if len(config_part) != 14:
-            print("Invalid length, expected 14")
-            return None
+            return self.error_message
         
         # slice index
         ordinal_index = config_part[:4] # First 4
         config_value = config_part[4:] # Remaining 10
 
-        print(f"Ordinal: {ordinal_index}, Config: {config_value}")
+        print(f"Parsed: {config_part}, Ordinal: {ordinal_index}, Config: {config_value}")
         return (ordinal_index, config_value) # returning a tuple
 
     # Main
@@ -30,19 +29,29 @@ class BarcodeConfigurationParser:
         print(f"Recieved config string: {config_string}")
 
         # Step 1: Split the string
-        print(f"Starting to split {self._split_configurations(config_string)}")
+        config_parts = self._split_configurations(config_string) #outputs: ['0001LAJ5KBX9H8', '0003UKURNK403F', '0002MO6K1Z9WFA', '0004OWRXZFMS2C']
+        print(f"Starting to split {config_parts}")
 
         # Step 2: Parse each individual config
+        # now we need that tuple to be in a list
+         #the tuples of ordinal and config index
+        parsed_configs = []
+        for config_part in config_parts: # this will get the first tuple '0001LAJ5KBX9H8'
+            result = self._parse_single_configuration(config_part)
+            parsed_configs.append(result) # outputs:  [('0001', 'LAJ5KBX9H8'), ('0003', 'UKURNK403F'), ('0002', 'MO6K1Z9WFA'), ('0004', 'OWRXZFMS2C')]
+            print(str(f"parsed_configs: {parsed_configs}"))
+            if result is None:
+                return self.error_message
         
+
         return ['We will build this step by step']
     
 # Testing basic class
 parser = BarcodeConfigurationParser()
-# result = parser.parse("0001LAJ5KBX9H8|0003UKURNK403F|0002MO6K1Z9WFA|0004OWRXZFMS2C")
-# print(f"Result: {result}")
+result = parser.parse("0001LAJ5KBX9H8|0003UKURNK403F|0002MO6K1Z9WFA|0004OWRXZFMS2C")
+print(f"Result: {result}")
 
-result_split = parser.parse("0001LAJ5KBX9H8|0003UKURNK403F|0002MO6K1Z9WFA|0004OWRXZFMS2C")
-print(f"Result: {result_split}")
+
 
 ## Output:
 # Recieved config string: 0001LAJ5KBX9H8|0003UKURNK403F|0002MO6K1Z9WFA|0004OWRXZFMS2C
