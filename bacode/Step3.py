@@ -34,7 +34,7 @@ class BarcodeConfigurationParser:
 
         # Step 2: Parse each individual config
         # now we need that tuple to be in a list
-         #the tuples of ordinal and config index
+        #the tuples of ordinal and config index
         parsed_configs = []
         for config_part in config_parts: # this will get the first tuple '0001LAJ5KBX9H8'
             result = self._parse_single_configuration(config_part)

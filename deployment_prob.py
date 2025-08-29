@@ -15,9 +15,10 @@ def eval(deployments):
         try:
             # Convert JSON string to Python dictionary
             deployment = json.loads(deployment_json)
-            
+            print(f"deployment json loads: {deployment}")
             if 'status' in deployment:
                 status = deployment['status']
+                print(f"status defined as: {status}")
                 # check for success
                 if status == 'Success':
                     success_count += 1
