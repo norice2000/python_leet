@@ -25,36 +25,37 @@ class BarcodeConfigurationParser:
             # print(f"Parsed: {config_part}, Ordinal: {ordinal_index}, Config: {config_value}")
 
             # Step Prereq the ordinal index value is a 4 digit numeric prefixed with zeros
-            if not ordinal_index.isdigit():
+             #7. "0000" is not a valid ordinal index
+            if not ordinal_index.isdigit() or ordinal_index == "0000":
                 return None
             
             # 3. Configuration values are alphanumeric and may contain no other characters
-            if not config_value.isalnum():
-                return None
-            
             # 4. Configuration value length is exactly 10 characters
-            if len(config_value) != 10:
+            if not config_value.isalnum() or len(config_value) != 10:
                 return None
             
+            return (int(ordinal_index), config_value)
             # 5. Ordinal indices may not repeat, for example there cannot be two occurrences of the number "1"
 
             # 6. Each configuration value is unique, configurations do not repeat
-            
-            # 7. "0000" is not a valid ordinal index
-            if ordinal_index == "0000":
-                return None
-            
-            return (int(ordinal_index), config_value)  # Convert ordinal to int
-        
         except Exception as e:
             print(f"Unexpected error parsing {config_part} : {e}")
 
     # Step 2
-    def _validate_sequence_order(self, parsed_config):
-        try:
-            
-        except Exception as e:
-            print(f"Invalid sequence detected")
+    def _validate_duplicates(self, ordinals, config_values):
+        if len(ordinals) == len(set(ordinals)) and len(config_values) == len(set(config_values)):
+            return True
+        else:
+            return self.error_message
+        
+    def _validate_sequantial_order(self, ordinals):
+        ordinals_sorted = sorted(ordinals)
+        for i, actual in enumerate(ordinals_sorted):
+            if actual != i:
+                return False
+            return True
+    
+
     # Main
     def parse(self, config_string: str): # def METHOD( attributes)
         try:
@@ -74,6 +75,10 @@ class BarcodeConfigurationParser:
                     return self.error_message
                 parsed_configs.append(result) # outputs:  [('0001', 'LAJ5KBX9H8'), ('0003', 'UKURNK403F'), ('0002', 'MO6K1Z9WFA'), ('0004', 'OWRXZFMS2C')]
                 print(str(f"parsed_configs: {parsed_configs}"))
+
+            # step 2
+            if not self._validate_sequence_order(parsed_configs):
+                return self.error_message
 
             return ["Success, valid"] # finisher
         
@@ -97,86 +102,86 @@ def run_tests():
     print(f"Expected: Success (with note about condition 2)")
     print(f"Actual: {result}")
     
-    # TEST 2: INVALID - Violates Condition 3 (non-alphanumeric)
-    print("\n🔴 TEST 2: NON-ALPHANUMERIC CONFIG VALUE")
-    print("-" * 30)
-    print("Testing Condition 3: Configuration values must be alphanumeric only")
-    invalid_config = "0001LAJ5KBX@H8|0002UKURNK403F"
-    result = parser.parse(invalid_config)
-    print(f"Expected: {parser.error_message}")
-    print(f"Actual: {result}")
+    # # TEST 2: INVALID - Violates Condition 3 (non-alphanumeric)
+    # print("\n🔴 TEST 2: NON-ALPHANUMERIC CONFIG VALUE")
+    # print("-" * 30)
+    # print("Testing Condition 3: Configuration values must be alphanumeric only")
+    # invalid_config = "0001LAJ5KBX@H8|0002UKURNK403F"
+    # result = parser.parse(invalid_config)
+    # print(f"Expected: {parser.error_message}")
+    # print(f"Actual: {result}")
     
-    # TEST 3: INVALID - Violates Condition 4 (wrong config length)
-    print("\n🔴 TEST 3: WRONG CONFIG VALUE LENGTH")
-    print("-" * 30)
-    print("Testing Condition 4: Configuration values must be exactly 10 characters")
-    invalid_config = "0001LAJ5KBX9H|0002UKURNK403F"  # Only 9 chars
-    result = parser.parse(invalid_config)
-    print(f"Expected: {parser.error_message}")
-    print(f"Actual: {result}")
+    # # TEST 3: INVALID - Violates Condition 4 (wrong config length)
+    # print("\n🔴 TEST 3: WRONG CONFIG VALUE LENGTH")
+    # print("-" * 30)
+    # print("Testing Condition 4: Configuration values must be exactly 10 characters")
+    # invalid_config = "0001LAJ5KBX9H|0002UKURNK403F"  # Only 9 chars
+    # result = parser.parse(invalid_config)
+    # print(f"Expected: {parser.error_message}")
+    # print(f"Actual: {result}")
     
-    # TEST 4: INVALID - Violates Condition 5 (duplicate ordinals)
-    print("\n🔴 TEST 4: DUPLICATE ORDINALS")
-    print("-" * 30)
-    print("Testing Condition 5: Ordinal indices may not repeat")
-    invalid_config = "0001LAJ5KBX9H8|0001UKURNK403F"  # Two 0001s
-    result = parser.parse(invalid_config)
-    print(f"Expected: {parser.error_message}")
-    print(f"Actual: {result}")
+    # # TEST 4: INVALID - Violates Condition 5 (duplicate ordinals)
+    # print("\n🔴 TEST 4: DUPLICATE ORDINALS")
+    # print("-" * 30)
+    # print("Testing Condition 5: Ordinal indices may not repeat")
+    # invalid_config = "0001LAJ5KBX9H8|0001UKURNK403F"  # Two 0001s
+    # result = parser.parse(invalid_config)
+    # print(f"Expected: {parser.error_message}")
+    # print(f"Actual: {result}")
     
-    # TEST 5: INVALID - Violates Condition 6 (duplicate config values)
-    print("\n🔴 TEST 5: DUPLICATE CONFIG VALUES")
-    print("-" * 30)
-    print("Testing Condition 6: Each configuration value must be unique")
-    invalid_config = "0001LAJ5KBX9H8|0002LAJ5KBX9H8"  # Same config value
-    result = parser.parse(invalid_config)
-    print(f"Expected: {parser.error_message}")
-    print(f"Actual: {result}")
+    # # TEST 5: INVALID - Violates Condition 6 (duplicate config values)
+    # print("\n🔴 TEST 5: DUPLICATE CONFIG VALUES")
+    # print("-" * 30)
+    # print("Testing Condition 6: Each configuration value must be unique")
+    # invalid_config = "0001LAJ5KBX9H8|0002LAJ5KBX9H8"  # Same config value
+    # result = parser.parse(invalid_config)
+    # print(f"Expected: {parser.error_message}")
+    # print(f"Actual: {result}")
     
-    # TEST 6: INVALID - Violates Condition 7 (0000 ordinal)
-    print("\n🔴 TEST 6: INVALID ORDINAL 0000")
-    print("-" * 30)
-    print("Testing Condition 7: '0000' is not a valid ordinal")
-    invalid_config = "0000LAJ5KBX9H8|0002UKURNK403F"
-    result = parser.parse(invalid_config)
-    print(f"Expected: {parser.error_message}")
-    print(f"Actual: {result}")
+    # # TEST 6: INVALID - Violates Condition 7 (0000 ordinal)
+    # print("\n🔴 TEST 6: INVALID ORDINAL 0000")
+    # print("-" * 30)
+    # print("Testing Condition 7: '0000' is not a valid ordinal")
+    # invalid_config = "0000LAJ5KBX9H8|0002UKURNK403F"
+    # result = parser.parse(invalid_config)
+    # print(f"Expected: {parser.error_message}")
+    # print(f"Actual: {result}")
     
-    # TEST 7: EDGE CASE - Single valid configuration
-    print("\n🟡 TEST 7: SINGLE CONFIGURATION")
-    print("-" * 30)
-    print("Testing with just one configuration")
-    single_config = "0001LAJ5KBX9H8"
-    result = parser.parse(single_config)
-    print(f"Expected: Success (should work)")
-    print(f"Actual: {result}")
+    # # TEST 7: EDGE CASE - Single valid configuration
+    # print("\n🟡 TEST 7: SINGLE CONFIGURATION")
+    # print("-" * 30)
+    # print("Testing with just one configuration")
+    # single_config = "0001LAJ5KBX9H8"
+    # result = parser.parse(single_config)
+    # print(f"Expected: Success (should work)")
+    # print(f"Actual: {result}")
     
-    # TEST 8: EDGE CASE - Empty or malformed input
-    print("\n🔴 TEST 8: MALFORMED INPUT")
-    print("-" * 30)
-    print("Testing with empty or malformed input")
-    try:
-        result = parser.parse("")
-        print(f"Empty string result: {result}")
+    # # TEST 8: EDGE CASE - Empty or malformed input
+    # print("\n🔴 TEST 8: MALFORMED INPUT")
+    # print("-" * 30)
+    # print("Testing with empty or malformed input")
+    # try:
+    #     result = parser.parse("")
+    #     print(f"Empty string result: {result}")
         
-        result = parser.parse("0001LAJ5KBX9H8|")  # Trailing |
-        print(f"Trailing | result: {result}")
+    #     result = parser.parse("0001LAJ5KBX9H8|")  # Trailing |
+    #     print(f"Trailing | result: {result}")
         
-        result = parser.parse("|0001LAJ5KBX9H8")  # Leading |
-        print(f"Leading | result: {result}")
-    except Exception as e:
-        print(f"Exception caught: {e}")
+    #     result = parser.parse("|0001LAJ5KBX9H8")  # Leading |
+    #     print(f"Leading | result: {result}")
+    # except Exception as e:
+    #     print(f"Exception caught: {e}")
 
-    print("\n" + "=" * 60)
-    print("VALIDATION STATUS:")
-    print("✅ Condition 1: Separator validation")
-    print("✅ Condition 3: Alphanumeric validation")  
-    print("✅ Condition 4: Config length validation")
-    print("✅ Condition 5: No duplicate ordinals")
-    print("✅ Condition 6: No duplicate config values")
-    print("✅ Condition 7: No 0000 ordinal")
-    print("❌ Condition 2: Sequential ordering (still needed)")
-    print("=" * 60)
+    # print("\n" + "=" * 60)
+    # print("VALIDATION STATUS:")
+    # print("✅ Condition 1: Separator validation")
+    # print("✅ Condition 3: Alphanumeric validation")  
+    # print("✅ Condition 4: Config length validation")
+    # print("✅ Condition 5: No duplicate ordinals")
+    # print("✅ Condition 6: No duplicate config values")
+    # print("✅ Condition 7: No 0000 ordinal")
+    # print("❌ Condition 2: Sequential ordering (still needed)")
+    # print("=" * 60)
 
 # Run all tests
 run_tests()
