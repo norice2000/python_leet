@@ -1,0 +1,4 @@
+2025-09-10 21:40:17.614 | INFO     | __main__:setup_loguru_save_locally:19 - This is an info using loguru
+2025-09-10 21:40:17.615 | DEBUG    | __main__:setup_loguru_save_locally:20 - This is a debug by loguru
+2025-09-10 21:40:56.551 | INFO     | __main__:setup_loguru_save_locally:19 - This is an info using loguru
+2025-09-10 21:40:56.552 | DEBUG    | __main__:setup_loguru_save_locally:20 - This is a debug by loguru
