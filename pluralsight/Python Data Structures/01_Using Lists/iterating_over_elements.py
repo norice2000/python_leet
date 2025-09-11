@@ -26,3 +26,18 @@ for i, k in enumerate(item, 1):
 # Index enum: 1, item: mouse
 # Index enum: 2, item: keyboard
 # Index enum: 3, item: monitor
+
+# Looping over Nested Lists
+#Nested Lists
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6]
+]
+# [[1, 2, 3], [4, 5, 6]]
+
+for row in matrix:
+    print(f"Row: {row}")
+
+for row in matrix: # row = [1,2,3], then row = [4,5,6]
+    for value in row: # prints out 1 ,2 ,3
+        print(f"Value in nest: {value}")

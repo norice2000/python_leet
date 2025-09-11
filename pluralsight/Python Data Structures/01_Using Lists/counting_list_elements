@@ -1,0 +1,5 @@
+statuses = ["online", "offline", "online", "error", "online"]
+
+# Using Count methods shows you how many time something appears
+count_online = statuses.count("online")
+print(f"Online counter: {count_online}") #Online counter: 3
