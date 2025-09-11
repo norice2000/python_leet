@@ -55,3 +55,8 @@ compre_square = [num ** 2 for num in numbers] # Populate in thsi order first[ 3,
 print(f"Compre: {compre_square}")
 
 # output Compre: [1, 4, 9, 16]
+
+# List comprehension with Filtering
+# use the pattern as [4, 1, 2, 3] e.g. format [<append_iterate> <for interate in> <list> <condition>]
+compre_filter = [num for num in numbers if num % 2 == 0]
+print(f"compre_filter: {compre_filter}")
