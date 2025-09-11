@@ -47,7 +47,7 @@ def find_excessive_permissions(user_permissions: list, required_permissions: lis
 
         # list comprehension
         result = [user_perm for user_perm in set_user_permissions if user_perm not in set_required_permissions]
-        return result
+        return f"Result: {result}"
 
 
     except Exception as e:
