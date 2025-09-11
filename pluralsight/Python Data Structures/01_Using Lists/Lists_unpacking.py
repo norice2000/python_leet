@@ -37,3 +37,21 @@ except ValueError as e:
 # outputs
 # status_code: 200         condition: OK 
 #  message: ['Data loaded succesfully', 'Time: 0.22s']
+
+
+# Transorming Lists with List Comprehensions
+numbers = [1, 2 ,3, 4]
+
+square = []
+for i in numbers:
+    squared = i ** 2
+    square.append(squared)
+
+print(f" non comprehension: {square}")
+# output  non comprehension: [1, 4, 9, 16]
+
+# List comprehension style
+compre_square = [num ** 2 for num in numbers] # Populate in thsi order first[ 3,1, 2] e.g. format [<append_iterate> <for iterate in> <list>]
+print(f"Compre: {compre_square}")
+
+# output Compre: [1, 4, 9, 16]
