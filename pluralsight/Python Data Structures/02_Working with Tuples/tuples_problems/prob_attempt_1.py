@@ -36,15 +36,17 @@ def find_duplicate_configurations(service_configs: List[Tuple[str, int, str]]) -
     # else
     # append seen_config
 
-    seen_config = []
-    duplicate = []
+    seen_config = set()
+    duplicate = set()
 
     for config in service_configs:
         if config in seen_config:
-            duplicate.append(config)
+            # duplicate.append(config)
+            duplicate.add(config)
         else:
-            seen_config.append(config)
-    return duplicate
+            # seen_config.append(config)
+            seen_config.add(config)
+    return list(duplicate)
 
 configs = [
     ("api-gateway", 80, "http"),
