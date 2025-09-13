@@ -19,25 +19,24 @@ def find_missing_security_groups(required_ports, existing_rules):
     
     Real-world: Ensures all required services have proper firewall access
     """
-    # initialise a list
+    # initliaze not_convered list
     not_covered = []
-
-    # iterate through required ports
+    # iterate required ports
     for port in required_ports:
-        # create a flag for False
-        is_covered = False
-        # iterate tuple of port1, port2 in existing_rules
-        for start, end in existing_rules:
-            if (start <= port) and (port <= end): #20 > 22 and 22 < 25
-            # if port1 <= port <= port2:
-                is_covered = True
+        is_convered = False
+    # iterate tuple start, end for existing_rules
+        for start_port, end_port in existing_rules:
+    # check start < req_port < end
+            if start_port < port < end_port:
+    # is_convered = True
+                is_convered = True
+    # break 
                 break
-
-        if not is_covered:
+    # if is_covered = False
+        if not is_convered:
             not_covered.append(port)
-
     return not_covered
-
+    # not_covered.append(port)
 
 required_ports = [22, 80, 443, 8080, 9000]
 existing_rules = [(20, 25), (443, 443), (8000, 9000)]
