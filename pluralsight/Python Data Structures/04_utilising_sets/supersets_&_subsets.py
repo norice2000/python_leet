@@ -25,4 +25,4 @@ choco_ingredients = {"coco", "sugar", "dairy"}
 
 fruit_salad_ingredients = {"apple", "banana"}
 
-print(f"isdisjoint to see if it contains allergens: {allergens.isdisjoint(choco_ingredients)}")
+print(f"isdisjoint to see if it contains allergens: {allergens.isdisjoint(choco_ingredients)}") # Returns False since it contains it
