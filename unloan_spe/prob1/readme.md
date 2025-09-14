@@ -1,0 +1,1 @@
+Write a function that flattens a nested array of numbers (e.g., [1, [2, [3, 4]], 5]) into a single-level array.
