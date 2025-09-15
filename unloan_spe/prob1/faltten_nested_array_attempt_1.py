@@ -25,25 +25,26 @@ def flatten_nested_array(nested_array: List[Union[int, List]]) -> List[int]:
     Real-world: Flattening hierarchical configuration structures, 
     processing nested Terraform/YAML configurations, log aggregation
     """
-    # TODO: Implement this function
-    # Initialize result list
-    # For each element in nested_array:
-    #   If element is a list: recursively flatten and extend result
-    #   If element is integer: append to result
-    # Return result
+    # TODO
+    # initialize result
+    # iterate through elements
+    # if isinstance(element, list)
+    # update result at the end, result.extend
+    # else: update result at the start result.append
+    # returnr result
+
     try:
         result = []
 
-        for element in nested_array:
-            # print(element)
-            if isinstance(element, list):
-                result.extend(flatten_nested_array(element)) #this is a recursive loop
+        for i in nested_array:
+            if isinstance(i, list):
+                result.extend(flatten_nested_array(i))
             else:
-                result.append(element)
+                result.append(i)
         return result
     except Exception as e:
         return e
 
 
-nested_config = [1, [2, [3, 4]], 5, [6, 7]]
+nested_config = [10, [20, 30], [40, [50, 60]], 70]
 print(flatten_nested_array(nested_config))
