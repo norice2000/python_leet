@@ -9,11 +9,14 @@
 # Output: true (many duplicates)
 
 def containsDuplicate(nums):
-    # create a set
-    #  iterate nums
-    # if num in seen
+    # seen = set()
+
+    # iterate for num in nums
+    # condition: if num in seen
     # return True
-    # append set
+    # seen.add(num)
+    # return False
+
     seen = set()
 
     for num in nums:
