@@ -11,16 +11,6 @@
 # Output: [0,1] (because nums[0] + nums[1] = 3 + 3 = 6)
 
 def two_sum(nums: list, target: int) -> list:
-    # create a hashmap, seen
-
-    # iterate as index value, for index, num in enumerate(nums)
-    # complement = target - num
-    # if complement not in seen
-    # seen[num] = index
-    # elif complement in seen
-    # return [seen[complement], index]
-    #return None
-
     seen = {}
 
     for index, num in enumerate(nums):
@@ -29,8 +19,6 @@ def two_sum(nums: list, target: int) -> list:
             seen[num] = index
         elif complement in seen:
             return [seen[complement], index]
-    return None
-    
 
 
 # Test your solution  

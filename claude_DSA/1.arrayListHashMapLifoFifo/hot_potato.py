@@ -1,3 +1,5 @@
+#FIFO
+
 from collections import deque
 
 def hot_potato(people, step):

@@ -9,13 +9,6 @@
 # Output: true (many duplicates)
 
 def containsDuplicate(nums: list) -> bool:
-    ...
-    # create a set called seen
-    # for num in nums
-    # if num in seen:
-    # return True
-    # seen.add(num)
-    #return False
     seen = set()
 
     for num in nums:
