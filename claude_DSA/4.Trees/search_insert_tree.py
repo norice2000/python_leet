@@ -38,3 +38,16 @@ def find_value(root, target):
         return right_ndoe
 
 print(find_value(root, 4))  # Should return the node with value 4
+
+# Inserting value
+# you want high numbers in right
+# you want low numbers in left
+def insert_value(root, val):
+    if not root:
+        return TreeNode(val)
+    
+    if val > root.val:
+        root.right = insert_value(root.right, val)
+    elif val < root.val:
+        root.left = insert_value(root.left, val)
+    return root

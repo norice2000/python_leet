@@ -27,9 +27,21 @@ root.right.left = TreeNode(15)
 root.right.right = TreeNode(7)
 
 class Solution:
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        ...
+    def maxDepth(self, root):
+        # we use max
+        # left_subtree = dfs(self.root.left)
+        # right_substree = dfs(self.root.right)
+        # result = 1 + max(left_subtreem right_subtree)
+        if not root:
+            return 0 #if root has no children we return 0
+        
+        #recursive on the left subtree
+        # recursive on the right subtree
+        # get the max from the both
+        # we 1 + since we are starting from root
+        result = 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+        return result
 
 sol = Solution()
-root = [3,9,20,null,null,15,7]
 print(sol.maxDepth(root))

@@ -21,15 +21,18 @@ root.left.right = TreeNode(5)
 # Solutiohn
 class Solution:
     def preorderTraversal(self, root):
-        # init result array
-        #dfs(root)
-        ## if not root: return None
-        ## result.append(root.val)
+        # c set up
+        # initalise array resul;t
+
+        #def dfs(root)
+        # if not root, return None
+        ## result append root
         ## dfs(root.left)
         ## dfs(root.right)
+
         #dfs(root)
         #return result
-        
+
         result = []
 
         def dfs(root):
