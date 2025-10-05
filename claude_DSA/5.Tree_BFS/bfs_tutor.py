@@ -42,3 +42,6 @@ print(f"level_order: {level_order(root)}")
 # 4
 # 5
 # 10
+
+
+

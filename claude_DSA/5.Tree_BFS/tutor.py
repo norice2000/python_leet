@@ -70,21 +70,41 @@ def bfs_with_steps(root):
     print(f"FINAL RESULT: {result}")
     return result
 
+# Step 4: Simple BFS (clean version)
+def bfs_simple(root):
+    if not root:
+        return []
+    
+    queue = deque([root])
+    result = []
+    
+    while queue:
+        node = queue.popleft()
+        result.append(node.val)
+        
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+    
+    return result
+
 # Step 5: BFS Level by Level (returns nested lists)
 def bfs_level_order(root):
     if not root:
         return []
     
+    queue = deque([root])
     result = []
-    queue = deque([root]) #process the first one
+
     
     while queue:
-        level_size = len(queue)  # Number of nodes at current level
+        level_size = len(queue)  # Number of nodes at current level, # tells us how many nodes we need to go through in the current level
         current_level = []
         
         for _ in range(level_size):  # Process all nodes at this level
             node = queue.popleft()
-            current_level.append(node.val)
+            current_level.append(node.val) #temporarily hold the value in the current level
             
             if node.left:
                 queue.append(node.left)
@@ -95,8 +115,20 @@ def bfs_level_order(root):
     
     return result
 
-
-tree = build_tree()
-
-# Example 1: BFS with detailed steps
-bfs_with_steps(tree)
+# Run all examples
+if __name__ == "__main__":
+    # Build the tree
+    tree = build_tree()
+    
+    # Example 1: BFS with detailed steps
+    bfs_with_steps(tree)
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Example 2: Simple BFS output
+    print("Simple BFS (single list):", bfs_simple(tree))
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Example 3: Level order (nested lists)
+    print("Level Order (by levels):", bfs_level_order(tree))

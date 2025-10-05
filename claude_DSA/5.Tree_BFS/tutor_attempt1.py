@@ -1,14 +1,10 @@
 from collections import deque
-
 # Step 1: Define TreeNode class
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
-
-    def __str__(self):
-        return str(self.val)
 
 # Step 2: Helper function to build a tree
 def build_tree():
@@ -28,34 +24,31 @@ def build_tree():
     root.right.right = TreeNode(6)
     return root
 
-# Step 5: BFS Level by Level (returns nested lists)
-def bfs_level_order(root):
+def bfs(root):
     if not root:
         return []
     
+    queue = deque([root])
     result = []
-    queue = deque([root]) #process the first one
-    
+
     while queue:
-        level_size = len(queue)  # Number of nodes at current level
         current_level = []
-        
-        for _ in range(level_size):  # Process all nodes at this level
+        level_length = len(queue)
+
+        for _ in range(level_length):
             node = queue.popleft()
             current_level.append(node.val)
-            
+
             if node.left:
                 queue.append(node.left)
             if node.right:
                 queue.append(node.right)
-        
+
         result.append(current_level)
-    
     return result
 
-
+# Build the tree
 tree = build_tree()
 
 # Example 1: BFS with detailed steps
-print(bfs_level_order(tree))
-# [[1], [2, 3], [4, 5, 6]]
+print(bfs(tree)) # [[1], [2, 3], [4, 5, 6]]
