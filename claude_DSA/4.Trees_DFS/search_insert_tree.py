@@ -51,3 +51,20 @@ def insert_value(root, val):
     elif val < root.val:
         root.left = insert_value(root.left, val)
     return root
+
+
+# finding a value true
+def find_value_dfs(root, target):
+    # if not node return False
+    # root.val == target return True
+    # return find_value_dfs(root.left, target) or find_value_dfs*root.right,target)
+
+    if not root:
+        return False
+    
+    if root.val == target:
+        return True
+    
+    return find_value_dfs(root.left, target) or find_value_dfs(root.right, target)
+
+print(find_value_dfs(root, 2)) #returns true
